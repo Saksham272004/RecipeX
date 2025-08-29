@@ -85,17 +85,7 @@ function generateRecipeImage(recipe) {
     'chocolate cake': 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&h=400&fit=crop&crop=center',
     'fried rice': 'https://images.unsplash.com/photo-1563379091339-03246963d96c?w=600&h=400&fit=crop&crop=center',
     'tomato soup': 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&crop=center',
-    'pancakes': 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&h=400&fit=crop&crop=center',
-    'hamburger': 'https://images.unsplash.com/photo-1558030006-450675393462?w=600&h=400&fit=crop&crop=center',
-    'sushi': 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=600&h=400&fit=crop&crop=center',
-    'lasagna': 'https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?w=600&h=400&fit=crop&crop=center',
-    'ramen': 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop&crop=center',
-    'fish and chips': 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=600&h=400&fit=crop&crop=center',
-    'greek salad': 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=600&h=400&fit=crop&crop=center',
-    'fried chicken': 'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&h=400&fit=crop&crop=center',
-    'ice cream': 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&h=400&fit=crop&crop=center',
-    'cheesecake': 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=400&fit=crop&crop=center',
-    'paella': 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&h=400&fit=crop&crop=center'
+    'pancakes': 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&h=400&fit=crop&crop=center'
   };
 
   // Check for exact matches first
@@ -105,176 +95,63 @@ function generateRecipeImage(recipe) {
     }
   }
 
-  // Define specific images for different food categories with more accurate recipe photos
+  // Define specific images for different food categories
   const imageCategories = {
-    // Breakfast items
     breakfast: {
-      keywords: ['breakfast', 'pancake', 'waffle', 'toast', 'cereal', 'oatmeal', 'eggs', 'bacon', 'omelet', 'french toast'],
+      keywords: ['breakfast', 'pancake', 'waffle', 'toast', 'cereal', 'oatmeal', 'eggs', 'bacon', 'omelet'],
       images: [
-        'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&h=400&fit=crop&crop=center', // pancakes
-        'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&h=400&fit=crop&crop=center', // eggs benedict
-        'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=600&h=400&fit=crop&crop=center', // avocado toast
-        'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&h=400&fit=crop&crop=center', // oatmeal
-        'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop&crop=center'  // breakfast plate
+        'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&h=400&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&h=400&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=600&h=400&fit=crop&crop=center'
       ]
     },
-
-    // Pizza
     pizza: {
       keywords: ['pizza', 'margherita', 'pepperoni'],
       images: [
-        'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center', // margherita pizza
-        'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop&crop=center', // pepperoni pizza
-        'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600&h=400&fit=crop&crop=center', // wood fired pizza
-        'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop&crop=center'  // pizza slice
+        'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop&crop=center'
       ]
     },
-
-    // Pasta dishes
     pasta: {
-      keywords: ['pasta', 'spaghetti', 'linguine', 'fettuccine', 'penne', 'macaroni', 'carbonara', 'bolognese', 'alfredo', 'lasagna'],
+      keywords: ['pasta', 'spaghetti', 'linguine', 'fettuccine', 'penne', 'carbonara', 'bolognese', 'alfredo'],
       images: [
-        'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&h=400&fit=crop&crop=center', // spaghetti carbonara
-        'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=600&h=400&fit=crop&crop=center', // pasta with tomato sauce
-        'https://images.unsplash.com/photo-1563379091339-03246963d96c?w=600&h=400&fit=crop&crop=center', // penne pasta
-        'https://images.unsplash.com/photo-1572441713132-51c75654db73?w=600&h=400&fit=crop&crop=center', // fettuccine alfredo
-        'https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?w=600&h=400&fit=crop&crop=center'  // lasagna
+        'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&h=400&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1572441713132-51c75654db73?w=600&h=400&fit=crop&crop=center'
       ]
     },
-
-    // Soup and stews
-    soup: {
-      keywords: ['soup', 'broth', 'bisque', 'chowder', 'stew', 'ramen', 'pho', 'minestrone', 'tomato soup'],
-      images: [
-        'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&crop=center', // tomato soup
-        'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=600&h=400&fit=crop&crop=center', // vegetable soup
-        'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&h=400&fit=crop&crop=center', // chicken soup
-        'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop&crop=center', // ramen
-        'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&h=400&fit=crop&crop=center'  // beef stew
-      ]
-    },
-
-    // Salads
-    salad: {
-      keywords: ['salad', 'greens', 'lettuce', 'spinach', 'caesar', 'greek', 'cobb', 'caprese'],
-      images: [
-        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&h=400&fit=crop&crop=center', // caesar salad
-        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center', // mixed greens
-        'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=600&h=400&fit=crop&crop=center', // greek salad
-        'https://images.unsplash.com/photo-1505576391880-b3f9d713dc4f?w=600&h=400&fit=crop&crop=center', // caprese salad
-        'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&h=400&fit=crop&crop=center'  // garden salad
-      ]
-    },
-
-    // Chicken dishes
     chicken: {
-      keywords: ['chicken', 'poultry', 'grilled chicken', 'fried chicken', 'chicken breast', 'wings', 'drumstick'],
+      keywords: ['chicken', 'poultry', 'grilled chicken', 'fried chicken', 'wings'],
       images: [
-        'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&crop=center', // grilled chicken
-        'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&h=400&fit=crop&crop=center', // roasted chicken
-        'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=600&h=400&fit=crop&crop=center', // chicken breast
-        'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&h=400&fit=crop&crop=center', // fried chicken
-        'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600&h=400&fit=crop&crop=center'  // chicken wings
+        'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&h=400&fit=crop&crop=center'
       ]
     },
-
-    // Beef dishes
-    beef: {
-      keywords: ['beef', 'steak', 'burger', 'ground beef', 'ribeye', 'sirloin', 'filet', 'meatball', 'roast beef'],
-      images: [
-        'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&h=400&fit=crop&crop=center', // grilled steak
-        'https://images.unsplash.com/photo-1558030006-450675393462?w=600&h=400&fit=crop&crop=center', // hamburger
-        'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&h=400&fit=crop&crop=center', // beef steak
-        'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop&crop=center', // meatballs
-        'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&h=400&fit=crop&crop=center'  // roast beef
-      ]
-    },
-
-    // Seafood
-    seafood: {
-      keywords: ['fish', 'salmon', 'tuna', 'shrimp', 'seafood', 'crab', 'lobster', 'cod', 'tilapia', 'prawns'],
-      images: [
-        'https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=600&h=400&fit=crop&crop=center', // grilled salmon
-        'https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&h=400&fit=crop&crop=center', // seafood platter
-        'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=600&h=400&fit=crop&crop=center', // fish and chips
-        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center', // shrimp dish
-        'https://images.unsplash.com/photo-1559847844-d724ce1b2b5e?w=600&h=400&fit=crop&crop=center'  // lobster
-      ]
-    },
-
-    // Rice dishes
-    rice: {
-      keywords: ['rice', 'risotto', 'fried rice', 'pilaf', 'biryani', 'paella', 'sushi'],
-      images: [
-        'https://images.unsplash.com/photo-1563379091339-03246963d96c?w=600&h=400&fit=crop&crop=center', // fried rice
-        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center', // risotto
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=600&h=400&fit=crop&crop=center', // sushi
-        'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&h=400&fit=crop&crop=center', // paella
-        'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&h=400&fit=crop&crop=center'  // biryani
-      ]
-    },
-
-    // Sandwiches and wraps
-    sandwich: {
-      keywords: ['sandwich', 'wrap', 'sub', 'panini', 'club', 'blt', 'grilled cheese', 'burrito', 'quesadilla'],
-      images: [
-        'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=600&h=400&fit=crop&crop=center', // sandwich
-        'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center', // grilled cheese
-        'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop&crop=center', // club sandwich
-        'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&h=400&fit=crop&crop=center', // wrap
-        'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop&crop=center'  // panini
-      ]
-    },
-
-    // Desserts
     dessert: {
-      keywords: ['cake', 'cookie', 'pie', 'dessert', 'sweet', 'chocolate', 'ice cream', 'pudding', 'brownie', 'cheesecake', 'tiramisu'],
+      keywords: ['cake', 'cookie', 'pie', 'dessert', 'sweet', 'chocolate', 'ice cream'],
       images: [
-        'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&h=400&fit=crop&crop=center', // chocolate cake
-        'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop&crop=center', // cookies
-        'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=400&fit=crop&crop=center', // cheesecake
-        'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&h=400&fit=crop&crop=center', // ice cream
-        'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600&h=400&fit=crop&crop=center'  // tiramisu
-      ]
-    },
-
-    // Vegetarian/Vegan
-    vegetarian: {
-      keywords: ['vegetarian', 'vegan', 'tofu', 'quinoa', 'lentil', 'bean', 'veggie', 'plant-based'],
-      images: [
-        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center', // veggie bowl
-        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&h=400&fit=crop&crop=center', // quinoa salad
-        'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&h=400&fit=crop&crop=center', // tofu dish
-        'https://images.unsplash.com/photo-1505576391880-b3f9d713dc4f?w=600&h=400&fit=crop&crop=center', // lentil curry
-        'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=600&h=400&fit=crop&crop=center'  // veggie stir fry
+        'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&h=400&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&h=400&fit=crop&crop=center'
       ]
     }
   };
 
-  // Default fallback images - high quality food photos
+  // Default fallback images
   const defaultImages = [
-    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop&crop=center', // general food
-    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&crop=center', // plated dish
-    'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop&crop=center', // gourmet meal
-    'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center', // restaurant dish
-    'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop&crop=center'  // home cooked meal
+    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop&crop=center',
+    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&crop=center',
+    'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop&crop=center'
   ];
 
-  // Find matching category with priority order
-  const categoryPriority = ['pizza', 'pasta', 'chicken', 'beef', 'seafood', 'rice', 'sandwich', 'soup', 'salad', 'breakfast', 'dessert', 'vegetarian'];
+  // Find matching category
+  for (const [categoryName, category] of Object.entries(imageCategories)) {
+    const hasKeyword = category.keywords.some(keyword =>
+      recipeName.includes(keyword) ||
+      ingredients.some(ing => ing.includes(keyword))
+    );
 
-  for (const categoryName of categoryPriority) {
-    const category = imageCategories[categoryName];
-    if (category) {
-      const hasKeyword = category.keywords.some(keyword =>
-        recipeName.includes(keyword) ||
-        ingredients.some(ing => ing.includes(keyword))
-      );
-
-      if (hasKeyword) {
-        const imageIndex = recipe.id % category.images.length;
-        return category.images[imageIndex];
-      }
+    if (hasKeyword) {
+      const imageIndex = recipe.id % category.images.length;
+      return category.images[imageIndex];
     }
   }
 
@@ -287,7 +164,6 @@ function generateRecipeImage(recipe) {
 function resetDisplayState() {
   console.log('Resetting display state...');
 
-  // Clear any existing content
   if (recipeList) {
     recipeList.innerHTML = '';
     recipeList.style.display = 'block';
@@ -319,10 +195,8 @@ function showEmptySearchState() {
 function displayRecipes(recipesToShow) {
   console.log('Displaying recipes:', recipesToShow.length);
 
-  // Reset the display state properly
   resetDisplayState();
 
-  // Make sure recipe list is visible and details are hidden
   if (recipeList) {
     recipeList.style.display = 'block';
     recipeList.style.flex = '1';
@@ -425,7 +299,6 @@ function createCompactRecipeCard(recipe) {
 function showRecipeDetails(recipe) {
   const isFavorited = favorites.some(fav => fav.id === recipe.id);
 
-  // Hide recipe grid and show details in full frame
   if (recipeList) {
     recipeList.style.display = 'none';
   }
@@ -506,21 +379,18 @@ function showRecipeDetails(recipe) {
 
   // Add back button functionality
   document.getElementById('backToGrid').addEventListener('click', () => {
-    // Show grid and hide details
     if (recipeList) {
       recipeList.style.display = 'block';
     }
     if (recipeDetails) {
       recipeDetails.style.display = 'none';
     }
-    // Re-run the last search to show grid
     const generateBtn = document.getElementById("generateBtn");
     if (generateBtn) {
       generateBtn.click();
     }
   });
 
-  // Scroll to top of details
   recipeDetails.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -538,6 +408,7 @@ function addIngredient(ingredient) {
   if (!selectedIngredients.includes(ingredient)) {
     selectedIngredients.push(ingredient);
     updateSelectedBox();
+    updateIngredientGridButtons(); // Update grid buttons
     console.log('Selected ingredients:', selectedIngredients);
   }
 
@@ -581,22 +452,17 @@ function removeIngredient(ingredient) {
   console.log('Removing ingredient:', ingredient);
   selectedIngredients = selectedIngredients.filter((i) => i !== ingredient);
   updateSelectedBox();
+  updateIngredientGridButtons(); // Update grid buttons
 }
-
-// Make functions globally accessible for onclick handlers
-window.removeIngredient = removeIngredient;
-window.toggleFavorite = toggleFavorite;
 
 // Initialize navigation when DOM is loaded
 function initializeNavigation() {
   console.log('Initializing navigation...');
 
-  // Get page sections
   homeSection = document.getElementById('homeSection');
   searchSection = document.getElementById('searchSection');
   favoritesSection = document.getElementById('favoritesSection');
 
-  // Hero feature click handlers
   const searchFeature = document.getElementById('searchFeature');
   const favoritesFeature = document.getElementById('favoritesFeature');
 
@@ -612,7 +478,6 @@ function initializeNavigation() {
     });
   }
 
-  // Back to home button
   const backHomeBtn = document.getElementById('backHomeBtn');
   if (backHomeBtn) {
     backHomeBtn.addEventListener('click', () => {
@@ -620,7 +485,6 @@ function initializeNavigation() {
     });
   }
 
-  // Browse recipes button in favorites
   const browseFavoritesBtn = document.getElementById('browseFavoritesBtn');
   if (browseFavoritesBtn) {
     browseFavoritesBtn.addEventListener('click', () => {
@@ -633,24 +497,20 @@ function initializeNavigation() {
 function showSection(section) {
   console.log('Switching to section:', section);
 
-  // Remove active class from all sections
   document.querySelectorAll('.page-section').forEach(sec => {
     sec.classList.remove('active');
   });
 
-  // Add active class to selected section
   switch (section) {
     case 'home':
       if (homeSection) {
         homeSection.classList.add('active');
-        // Always refresh popular recipes when going to home
         setTimeout(() => displayPopularRecipes(), 100);
       }
       break;
     case 'search':
       if (searchSection) {
         searchSection.classList.add('active');
-        // Reset search state when entering search section
         if (selectedIngredients.length === 0) {
           showEmptySearchState();
         }
@@ -690,7 +550,6 @@ function displayPopularRecipes() {
 
   console.log('Recipes available:', recipes.length);
 
-  // Get 6 random recipes as "popular"
   const shuffled = [...recipes].sort(() => 0.5 - Math.random());
   const popularRecipes = shuffled.slice(0, 6);
 
@@ -719,7 +578,6 @@ function displayFavorites() {
       </div>
     `;
 
-    // Re-attach event listener
     document.getElementById('browseFavoritesBtn').addEventListener('click', () => {
       showSection('search');
     });
@@ -758,203 +616,499 @@ function toggleFavorite(recipeId, button, event) {
   }
 
   localStorage.setItem('favorites', JSON.stringify(favorites));
+}
 
-  if (favoritesSection && favoritesSection.classList.contains('active')) {
-    displayFavorites();
+// Image recognition functionality - LogMeal API only
+async function analyzeImage(base64Image) {
+  console.log('🔍 Starting image analysis...');
+
+  let detections = [];
+
+  // Check if LogMeal API is configured
+  if (window.API_CONFIG?.LOGMEAL?.API_KEY && window.API_CONFIG.LOGMEAL.API_KEY !== 'YOUR_LOGMEAL_API_KEY_HERE') {
+    console.log('🍕 Using LogMeal API for detection...');
+    detections = await detectWithLogMeal(base64Image);
+  } else {
+    console.log('⚠️ LogMeal API not configured, using demo mode');
+    detections = getDemoDetections();
+  }
+
+  console.log('🎯 Final detections:', detections);
+  return detections;
+}
+
+// LogMeal Food AI API
+async function detectWithLogMeal(base64Image) {
+  try {
+    console.log('🔄 Starting LogMeal API call...');
+
+    const response = await fetch(window.API_CONFIG.LOGMEAL.BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${window.API_CONFIG.LOGMEAL.API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image: base64Image
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`LogMeal API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('✅ LogMeal response received:', data);
+
+    if (data.segmentation_results && data.segmentation_results.length > 0) {
+      const detections = [];
+
+      data.segmentation_results.forEach(result => {
+        if (result.recognition_results && result.recognition_results.length > 0) {
+          result.recognition_results.forEach(recognition => {
+            if (recognition.name && recognition.prob > 0.3) {
+              const foodName = recognition.name.toLowerCase();
+              const mappedIngredient = mapFoodToIngredient(foodName);
+
+              if (mappedIngredient && allIngredients.includes(mappedIngredient)) {
+                detections.push({
+                  name: mappedIngredient,
+                  confidence: recognition.prob
+                });
+              }
+            }
+          });
+        }
+      });
+
+      return detections.length > 0 ? detections : getDemoDetections();
+    }
+
+    return getDemoDetections();
+  } catch (error) {
+    console.error('❌ LogMeal API error:', error);
+    return getDemoDetections();
   }
 }
 
-// Search functionality
-function setupSearchFunctionality() {
-  console.log('Setting up search functionality...');
+// Map food items to recipe ingredients
+function mapFoodToIngredient(foodName) {
+  const foodMappings = {
+    'tomato': 'tomato',
+    'tomatoes': 'tomato',
+    'onion': 'onion',
+    'onions': 'onion',
+    'garlic': 'garlic',
+    'chicken': 'chicken',
+    'beef': 'beef',
+    'pork': 'pork',
+    'fish': 'fish',
+    'salmon': 'salmon',
+    'tuna': 'tuna',
+    'cheese': 'cheese',
+    'milk': 'milk',
+    'egg': 'egg',
+    'eggs': 'egg',
+    'bread': 'bread',
+    'rice': 'rice',
+    'pasta': 'pasta',
+    'potato': 'potato',
+    'potatoes': 'potato',
+    'carrot': 'carrot',
+    'carrots': 'carrot',
+    'bell pepper': 'bell pepper',
+    'pepper': 'bell pepper',
+    'mushroom': 'mushroom',
+    'mushrooms': 'mushroom',
+    'spinach': 'spinach',
+    'lettuce': 'lettuce',
+    'cucumber': 'cucumber',
+    'avocado': 'avocado',
+    'lemon': 'lemon',
+    'lime': 'lime',
+    'apple': 'apple',
+    'banana': 'banana',
+    'orange': 'orange',
+    'broccoli': 'broccoli',
+    'cauliflower': 'cauliflower',
+    'zucchini': 'zucchini',
+    'eggplant': 'eggplant',
+    'corn': 'corn',
+    'beans': 'beans',
+    'peas': 'peas'
+  };
 
-  if (!ingredientInput) {
-    console.error('ingredientInput not found');
+  return foodMappings[foodName] || null;
+}
+
+// Demo detections for when API is not configured
+function getDemoDetections() {
+  const demoIngredients = ['tomato', 'onion', 'garlic', 'chicken', 'cheese'];
+  return demoIngredients
+    .filter(ing => allIngredients.includes(ing))
+    .slice(0, 3)
+    .map(ing => ({
+      name: ing,
+      confidence: 0.8 + Math.random() * 0.2
+    }));
+}
+
+// Handle detected ingredients display
+function displayDetectedIngredients(detections) {
+  const resultsContainer = document.getElementById('recognitionResults');
+  const detectedContainer = document.getElementById('detectedIngredients');
+
+  if (!resultsContainer || !detectedContainer) return;
+
+  if (detections.length === 0) {
+    resultsContainer.classList.add('hidden');
     return;
   }
 
-  const addIngredientBtn = document.getElementById("addIngredientBtn");
-  const allIngredientsContainer = document.getElementById("allIngredients");
-  const generateBtn = document.getElementById("generateBtn");
-  const loadingSpinner = document.getElementById("loadingSpinner");
-  const resultsFilters = document.getElementById("resultsFilters");
+  detectedContainer.innerHTML = detections.map(detection => `
+    <div class="detected-ingredient" data-ingredient="${detection.name}">
+      <span class="ingredient-name">${detection.name}</span>
+      <span class="confidence">${Math.round(detection.confidence * 100)}%</span>
+      <button class="toggle-btn" onclick="toggleDetectedIngredient('${detection.name}', this)">
+        ✅ Add
+      </button>
+    </div>
+  `).join('');
 
-  // Display all available ingredients as clickable options
-  function displayAllIngredients() {
-    if (!allIngredientsContainer || allIngredients.length === 0) return;
+  resultsContainer.classList.remove('hidden');
+}
 
-    allIngredientsContainer.innerHTML = '<h4>Available Ingredients:</h4>';
+// Toggle detected ingredient
+function toggleDetectedIngredient(ingredient, button) {
+  const ingredientDiv = button.parentElement;
 
-    // Show first 50 ingredients to avoid overwhelming the UI
-    const ingredientsToShow = allIngredients.slice(0, 50);
-
-    ingredientsToShow.forEach(ingredient => {
-      const option = document.createElement('span');
-      option.className = 'ingredient-option';
-      option.textContent = ingredient;
-      option.addEventListener('click', () => addIngredient(ingredient));
-      allIngredientsContainer.appendChild(option);
-    });
+  if (button.textContent.includes('Add')) {
+    addIngredient(ingredient);
+    button.innerHTML = '❌ Remove';
+    button.classList.add('remove-mode');
+    ingredientDiv.classList.add('added');
+  } else {
+    removeIngredient(ingredient);
+    button.innerHTML = '✅ Add';
+    button.classList.remove('remove-mode');
+    ingredientDiv.classList.remove('added');
   }
+}
 
-  // Add ingredient button functionality
-  if (addIngredientBtn) {
-    addIngredientBtn.addEventListener("click", () => {
-      const ingredient = ingredientInput.value.trim().toLowerCase();
-      if (ingredient) {
-        addIngredient(ingredient);
-        ingredientInput.value = "";
-      }
-    });
-  }
+// Add all detected ingredients
+function addAllDetectedIngredients() {
+  const detectedIngredients = document.querySelectorAll('.detected-ingredient');
+  detectedIngredients.forEach(div => {
+    const ingredient = div.dataset.ingredient;
+    const button = div.querySelector('.toggle-btn');
 
-  // Enter key to add ingredient
-  ingredientInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      const ingredient = ingredientInput.value.trim().toLowerCase();
-      if (ingredient) {
-        addIngredient(ingredient);
-        ingredientInput.value = "";
-      }
+    if (button.textContent.includes('Add')) {
+      addIngredient(ingredient);
+      button.innerHTML = '❌ Remove';
+      button.classList.add('remove-mode');
+      div.classList.add('added');
     }
   });
+}
 
-  // Generate recipes functionality
-  if (generateBtn) {
-    generateBtn.addEventListener("click", () => {
-      console.log('Generate button clicked, selected ingredients:', selectedIngredients);
+// Search functionality
+function searchRecipes() {
+  console.log('🔍 Searching recipes with ingredients:', selectedIngredients);
 
-      if (selectedIngredients.length === 0) {
-        alert('Please select at least one ingredient to generate recipes.');
-        return;
+  if (selectedIngredients.length === 0) {
+    showEmptySearchState();
+    return;
+  }
+
+  const matchingRecipes = recipes.filter(recipe => {
+    const recipeIngredients = recipe.ingredients.map(ing => ing.toLowerCase());
+    const matchCount = selectedIngredients.filter(selected =>
+      recipeIngredients.some(recipeIng =>
+        recipeIng.includes(selected.toLowerCase()) ||
+        selected.toLowerCase().includes(recipeIng)
+      )
+    ).length;
+
+    return matchCount > 0;
+  });
+
+  // Sort by number of matching ingredients
+  matchingRecipes.sort((a, b) => {
+    const aMatches = selectedIngredients.filter(selected =>
+      a.ingredients.some(ing =>
+        ing.toLowerCase().includes(selected.toLowerCase()) ||
+        selected.toLowerCase().includes(ing.toLowerCase())
+      )
+    ).length;
+
+    const bMatches = selectedIngredients.filter(selected =>
+      b.ingredients.some(ing =>
+        ing.toLowerCase().includes(selected.toLowerCase()) ||
+        selected.toLowerCase().includes(ing.toLowerCase())
+      )
+    ).length;
+
+    return bMatches - aMatches;
+  });
+
+  console.log('📊 Found matching recipes:', matchingRecipes.length);
+  displayRecipes(matchingRecipes);
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log('🚀 Initializing Smart Recipe Generator...');
+
+  // Get DOM elements
+  recipeList = document.getElementById('recipeList');
+  recipeDetails = document.getElementById('recipeDetails');
+  ingredientInput = document.getElementById('ingredientInput');
+
+  // Initialize navigation
+  initializeNavigation();
+
+  // Load recipes
+  try {
+    await loadRecipes();
+    // Display all ingredients grid after recipes are loaded
+    displayAllIngredients();
+    console.log('✅ App initialization complete!');
+  } catch (error) {
+    console.error('❌ App initialization failed:', error);
+  }
+
+  // Set up ingredient input
+  if (ingredientInput) {
+    ingredientInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      if (query.length > 0) {
+        const matches = allIngredients.filter(ing =>
+          ing.includes(query) && !selectedIngredients.includes(ing)
+        ).slice(0, 10);
+
+        showSuggestions(matches);
+      } else {
+        hideSuggestions();
       }
+    });
+  }
 
-      // Show loading spinner
+  // Set up add ingredient button
+  const addIngredientBtn = document.getElementById('addIngredientBtn');
+  if (addIngredientBtn) {
+    addIngredientBtn.addEventListener('click', () => {
+      const ingredient = ingredientInput.value.trim().toLowerCase();
+      if (ingredient && allIngredients.includes(ingredient)) {
+        addIngredient(ingredient);
+      }
+    });
+  }
+
+  // Set up generate recipes button
+  const generateBtn = document.getElementById('generateBtn');
+  if (generateBtn) {
+    generateBtn.addEventListener('click', () => {
+      const loadingSpinner = document.getElementById('loadingSpinner');
       if (loadingSpinner) {
         loadingSpinner.classList.remove('hidden');
       }
 
-      // Hide generate button temporarily
-      generateBtn.style.display = 'none';
-
-      // Ensure we have recipes loaded
-      if (!recipes || recipes.length === 0) {
-        console.error('No recipes loaded');
-        if (recipeList) {
-          recipeList.innerHTML = `
-            <div class="error-state">
-              <span class="error-icon">⚠️</span>
-              <h3>No Recipes Available</h3>
-              <p>Recipe database not loaded. Please refresh the page.</p>
-            </div>
-          `;
-        }
-        return;
-      }
-
-      // Get dietary preferences
-      const preferences = Array.from(document.querySelectorAll('.pref-options input:checked'))
-        .map(cb => cb.value.toLowerCase());
-
-      // Simulate loading time for better UX
       setTimeout(() => {
-        let filtered = recipes.filter((recipe) => {
-          const recipeIngs = recipe.ingredients.map((i) => i.toLowerCase());
-          const matched = selectedIngredients.filter((ing) =>
-            recipeIngs.includes(ing)
-          ).length;
-
-          const accuracy = (matched / selectedIngredients.length) * 100;
-
-          // Apply dietary filters if any are selected
-          if (preferences.length > 0) {
-            // Check if recipe meets all selected dietary preferences
-            const recipeDietary = recipe.dietary || [];
-            const meetsAllPreferences = preferences.every(pref =>
-              recipeDietary.includes(pref)
-            );
-            if (!meetsAllPreferences) return false;
-          }
-
-          return accuracy >= 50; // Lower threshold for better results
-        });
-
-        console.log('🎯 Filtered recipes:', filtered.length);
-
-        // Hide loading spinner
+        searchRecipes();
         if (loadingSpinner) {
           loadingSpinner.classList.add('hidden');
         }
-
-        // Show results filters
-        if (resultsFilters) {
-          resultsFilters.classList.remove('hidden');
-        }
-
-        // Show generate button again
-        generateBtn.style.display = 'block';
-
-        displayRecipes(filtered);
-      }, 1500); // 1.5 second loading simulation
+      }, 500);
     });
   }
 
-  // Display all ingredients when search section loads
-  displayAllIngredients();
+  // Set up image upload functionality
+  const imageInput = document.getElementById('imageInput');
+  const uploadImageBtn = document.getElementById('uploadImageBtn');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const removeImageBtn = document.getElementById('removeImageBtn');
+  const addAllDetectedBtn = document.getElementById('addAllDetectedBtn');
 
-  console.log('Search functionality setup complete');
+  if (uploadImageBtn) {
+    uploadImageBtn.addEventListener('click', () => {
+      imageInput.click();
+    });
+  }
+
+  if (imageInput) {
+    imageInput.addEventListener('change', handleImageUpload);
+  }
+
+  if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', handleImageAnalysis);
+  }
+
+  if (removeImageBtn) {
+    removeImageBtn.addEventListener('click', removeImage);
+  }
+
+  if (addAllDetectedBtn) {
+    addAllDetectedBtn.addEventListener('click', addAllDetectedIngredients);
+  }
+});
+
+// Image upload handling
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+
+    if (imagePreview && previewImg) {
+      previewImg.src = e.target.result;
+      imagePreview.classList.remove('hidden');
+    }
+  };
+  reader.readAsDataURL(file);
 }
 
+// Image analysis handling
+async function handleImageAnalysis() {
+  const previewImg = document.getElementById('previewImg');
+  const loadingDiv = document.getElementById('recognitionLoading');
+  const resultsDiv = document.getElementById('recognitionResults');
 
+  if (!previewImg || !previewImg.src) return;
 
+  // Show loading
+  if (loadingDiv) loadingDiv.classList.remove('hidden');
+  if (resultsDiv) resultsDiv.classList.add('hidden');
 
-// No backend API needed - client-side only functionality
+  try {
+    // Convert image to base64
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
 
-// Initialize everything when DOM is ready
-function initializeApp() {
-  console.log('🚀 Initializing app...');
+    img.onload = async function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
 
-  // Initialize page sections
-  homeSection = document.getElementById('homeSection');
-  searchSection = document.getElementById('searchSection');
-  favoritesSection = document.getElementById('favoritesSection');
+      const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
 
-  // Initialize DOM elements
-  recipeList = document.getElementById("recipeList");
-  recipeDetails = document.getElementById("recipeDetails");
-  ingredientInput = document.getElementById("ingredientInput");
-  suggestionsBox = document.getElementById("suggestions");
-  selectedBox = document.getElementById("selectedIngredients");
+      // Analyze image
+      const detections = await analyzeImage(base64);
 
-  // Debug: Check if elements were found
-  console.log('DOM Elements check:');
-  console.log('- homeSection:', !!homeSection);
-  console.log('- searchSection:', !!searchSection);
-  console.log('- favoritesSection:', !!favoritesSection);
-  console.log('- recipeList:', !!recipeList);
-  console.log('- recipeDetails:', !!recipeDetails);
-  console.log('- ingredientInput:', !!ingredientInput);
-  console.log('- selectedBox:', !!selectedBox);
-  console.log('- popularRecipesList:', !!document.getElementById("popularRecipesList"));
-  console.log('- generateBtn:', !!document.getElementById("generateBtn"));
-  console.log('- addIngredientBtn:', !!document.getElementById("addIngredientBtn"));
+      // Hide loading
+      if (loadingDiv) loadingDiv.classList.add('hidden');
 
-  // Initialize components in order
-  initializeNavigation();
+      // Display results
+      displayDetectedIngredients(detections);
+    };
 
-  // Load recipes first, then setup search functionality
-  loadRecipes().then(() => {
-    setupSearchFunctionality();
-    console.log('App initialization complete');
-  }).catch(error => {
-    console.error('App initialization failed:', error);
-    setupSearchFunctionality(); // Still setup search even if recipes fail
+    img.src = previewImg.src;
+  } catch (error) {
+    console.error('Image analysis error:', error);
+    if (loadingDiv) loadingDiv.classList.add('hidden');
+  }
+}
+
+// Remove uploaded image
+function removeImage() {
+  const imagePreview = document.getElementById('imagePreview');
+  const imageInput = document.getElementById('imageInput');
+  const resultsDiv = document.getElementById('recognitionResults');
+
+  if (imagePreview) imagePreview.classList.add('hidden');
+  if (imageInput) imageInput.value = '';
+  if (resultsDiv) resultsDiv.classList.add('hidden');
+}
+
+// Show ingredient suggestions
+function showSuggestions(matches) {
+  let suggestionsBox = document.getElementById('suggestionsBox');
+
+  if (!suggestionsBox) {
+    suggestionsBox = document.createElement('div');
+    suggestionsBox.id = 'suggestionsBox';
+    suggestionsBox.className = 'suggestions-box';
+    ingredientInput.parentNode.appendChild(suggestionsBox);
+  }
+
+  if (matches.length > 0) {
+    suggestionsBox.innerHTML = matches.map(ingredient =>
+      `<div class="suggestion-item" onclick="addIngredient('${ingredient}')">${ingredient}</div>`
+    ).join('');
+    suggestionsBox.style.display = 'block';
+  } else {
+    suggestionsBox.style.display = 'none';
+  }
+}
+
+// Hide ingredient suggestions
+function hideSuggestions() {
+  const suggestionsBox = document.getElementById('suggestionsBox');
+  if (suggestionsBox) {
+    suggestionsBox.style.display = 'none';
+  }
+}
+
+// Display all available ingredients in a grid
+function displayAllIngredients() {
+  const allIngredientsContainer = document.getElementById('allIngredients');
+
+  if (!allIngredientsContainer || !allIngredients || allIngredients.length === 0) {
+    console.log('No ingredients container or ingredients not loaded yet');
+    return;
+  }
+
+  console.log('Displaying all ingredients grid:', allIngredients.length);
+
+  // Sort ingredients alphabetically
+  const sortedIngredients = [...allIngredients].sort();
+
+  allIngredientsContainer.innerHTML = `
+    <h3>Available Ingredients</h3>
+    <p>Click on any ingredient to add it to your recipe search:</p>
+    <div class="ingredients-grid">
+      ${sortedIngredients.map(ingredient => `
+        <button class="ingredient-btn ${selectedIngredients.includes(ingredient) ? 'selected' : ''}" 
+                onclick="toggleIngredientFromGrid('${ingredient}')"
+                data-ingredient="${ingredient}">
+          ${ingredient}
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+// Toggle ingredient from grid
+function toggleIngredientFromGrid(ingredient) {
+  if (selectedIngredients.includes(ingredient)) {
+    removeIngredient(ingredient);
+  } else {
+    addIngredient(ingredient);
+  }
+
+  // Update the grid button appearance
+  updateIngredientGridButtons();
+}
+
+// Update ingredient grid button appearances
+function updateIngredientGridButtons() {
+  const ingredientButtons = document.querySelectorAll('.ingredient-btn');
+
+  ingredientButtons.forEach(button => {
+    const ingredient = button.dataset.ingredient;
+    if (selectedIngredients.includes(ingredient)) {
+      button.classList.add('selected');
+    } else {
+      button.classList.remove('selected');
+    }
   });
 }
 
-// Check if DOM is already loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeApp);
-} else {
-  initializeApp();
-}
+// Make functions globally accessible
+window.removeIngredient = removeIngredient;
+window.toggleFavorite = toggleFavorite;
+window.toggleDetectedIngredient = toggleDetectedIngredient;
+window.toggleIngredientFromGrid = toggleIngredientFromGrid;

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # Smart Recipe Generator
 
 A web application that helps you find recipes based on ingredients you have. Simple, fast, and works entirely in your browser.
@@ -164,7 +165,8 @@ If you encounter any issues:
 3. Clear browser cache and local storage
 4. Open browser developer tools to check for errors
 
-Enjoy cooking with your Smart Recipe Generator! 🍳✨
-=======
+# Enjoy cooking with your Smart Recipe Generator! 🍳✨
+
 # RecipeX
->>>>>>> 69f0ee2a23a060549efdebf6759a7bbe5d8eac76
+
+> > > > > > > 69f0ee2a23a060549efdebf6759a7bbe5d8eac76

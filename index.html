@@ -43,15 +43,54 @@
           <h2>Select Your Ingredients</h2>
           <p>Add ingredients you have. Type to search or pick from the list.</p>
 
-          <!-- Ingredient input controls -->
-          <div class="ingredient-controls">
-            <input
-              type="text"
-              id="ingredientInput"
-              placeholder="Type an ingredient"
-              aria-label="Type an ingredient"
-            />
-            <button id="addIngredientBtn" class="secondary-btn">Add</button>
+          <!-- Image Recognition Section -->
+          <div class="image-recognition-section">
+            <h3>📸 Recognize Ingredients from Photo</h3>
+            <p>Upload a photo of your ingredients and we'll identify them for you!</p>
+            
+            <div class="image-upload-container">
+              <input type="file" id="imageInput" accept="image/*" style="display: none;" />
+              <button id="uploadImageBtn" class="image-upload-btn">
+                📷 Upload Photo
+              </button>
+            </div>
+            
+            <div id="imagePreview" class="image-preview hidden">
+              <img id="previewImg" alt="Uploaded image" />
+              <div class="image-actions">
+                <button id="analyzeBtn" class="primary-btn">🔍 Analyze Image</button>
+                <button id="removeImageBtn" class="secondary-btn">❌ Remove</button>
+              </div>
+            </div>
+            
+            <div id="recognitionResults" class="recognition-results hidden">
+              <h4>Detected Ingredients:</h4>
+              <div id="detectedIngredients" class="detected-ingredients"></div>
+              <button id="addAllDetectedBtn" class="primary-btn">✅ Add All to Recipe</button>
+            </div>
+            
+            <div id="recognitionLoading" class="recognition-loading hidden">
+              <div class="loading-spinner"></div>
+              <p>Analyzing your image...</p>
+            </div>
+            
+
+          </div>
+
+          <!-- Manual Ingredient Input -->
+          <div class="manual-input-section">
+            <h3>✏️ Or Add Ingredients Manually</h3>
+            
+            <!-- Ingredient input controls -->
+            <div class="ingredient-controls">
+              <input
+                type="text"
+                id="ingredientInput"
+                placeholder="Type an ingredient"
+                aria-label="Type an ingredient"
+              />
+              <button id="addIngredientBtn" class="secondary-btn">Add</button>
+            </div>
           </div>
 
           <!-- Selected ingredients display -->
@@ -147,6 +186,7 @@
       </footer>
     </div>
 
+    <script src="config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
