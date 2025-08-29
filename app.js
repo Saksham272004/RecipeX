@@ -9,6 +9,88 @@ let homeSection, searchSection, favoritesSection;
 // DOM elements
 let recipeList, recipeDetails, ingredientInput, suggestionsBox, selectedBox;
 
+// Clean ingredient names by removing non-alphabetic prefixes and measurements
+function cleanIngredientName(ingredient) {
+  if (!ingredient || typeof ingredient !== 'string') {
+    return '';
+  }
+  
+  let cleaned = ingredient.trim();
+  
+  // Remove leading numbers, percentages, and symbols (like "2% low-fat milk" -> "low-fat milk")
+  cleaned = cleaned.replace(/^[0-9]+[%]?\s*/, '');
+  
+  // Remove other leading non-alphabetic characters (symbols, spaces)
+  cleaned = cleaned.replace(/^[^a-zA-Z]+/, '').trim();
+  
+  // Remove common measurement prefixes and numbers
+  const measurementPrefixes = [
+    'cup', 'cups', 'c', 'tbsp', 'tsp', 'tablespoon', 'tablespoons', 'teaspoon', 'teaspoons',
+    'oz', 'ounce', 'ounces', 'lb', 'lbs', 'pound', 'pounds',
+    'gram', 'grams', 'g', 'kg', 'kilogram', 'kilograms',
+    'ml', 'milliliter', 'milliliters', 'liter', 'liters', 'l',
+    'pint', 'pints', 'pt', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal',
+    'inch', 'inches', 'cm', 'centimeter', 'centimeters'
+  ];
+  
+  // Split by spaces and remove measurement words and numbers from the beginning
+  let words = cleaned.split(/\s+/);
+  
+  // Remove leading numbers and measurements
+  while (words.length > 0) {
+    const firstWord = words[0].toLowerCase();
+    
+    // Remove if it's a number (including fractions like "1/2")
+    if (/^[0-9]+([\/][0-9]+)?$/.test(firstWord)) {
+      words.shift();
+      continue;
+    }
+    
+    // Remove if it's a measurement unit
+    if (measurementPrefixes.includes(firstWord)) {
+      words.shift();
+      continue;
+    }
+    
+    // Remove if it's a number followed by measurement (like "2cups")
+    if (/^[0-9]+[a-zA-Z]+$/.test(firstWord) && measurementPrefixes.some(unit => firstWord.includes(unit))) {
+      words.shift();
+      continue;
+    }
+    
+    break; // Stop if current word is not a number or measurement
+  }
+  
+  cleaned = words.join(' ').trim();
+  
+  // Remove any remaining leading non-alphabetic characters
+  cleaned = cleaned.replace(/^[^a-zA-Z]+/, '').trim();
+  
+  // Remove common descriptor words that aren't actual ingredients
+  const descriptorWords = [
+    'of', 'the', 'and', 'or', 'with', 'without', 'plus', 'extra',
+    'fresh', 'dried', 'frozen', 'canned', 'bottled', 'packaged',
+    'chopped', 'sliced', 'diced', 'minced', 'grated', 'shredded',
+    'cooked', 'uncooked', 'raw', 'prepared', 'ready',
+    'low-fat', 'non-fat', 'fat-free', 'sugar-free', 'salt-free',
+    'organic', 'natural', 'pure', 'whole', 'reduced'
+  ];
+  
+  words = cleaned.split(/\s+/);
+  while (words.length > 1 && descriptorWords.includes(words[0].toLowerCase())) {
+    words.shift();
+  }
+  
+  cleaned = words.join(' ').trim();
+  
+  // Final cleanup - ensure we have something meaningful
+  if (cleaned.length < 2) {
+    return ingredient.trim(); // Return original if cleaning resulted in too short string
+  }
+  
+  return cleaned;
+}
+
 // Load recipes and collect ingredients
 async function loadRecipes() {
   try {
@@ -27,23 +109,40 @@ async function loadRecipes() {
       throw new Error('Invalid recipe data: not an array or empty');
     }
 
-    // Enhance recipes with better images
+    // Enhance recipes with better images and clean ingredient names
     recipes = recipes.map(recipe => {
       const newImage = generateRecipeImage(recipe);
+      const cleanedIngredients = recipe.ingredients.map(ingredient => {
+        const cleaned = cleanIngredientName(ingredient.toLowerCase());
+        return cleaned || ingredient; // Keep original if cleaning results in empty string
+      });
+      
+      // Also clean recipe names that start with numbers
+      let cleanedName = recipe.name;
+      if (/^[0-9]/.test(cleanedName)) {
+        cleanedName = cleanedName.replace(/^[0-9]+\s*/, '').trim();
+      }
+      
       return {
         ...recipe,
-        image: newImage
+        name: cleanedName,
+        image: newImage,
+        ingredients: cleanedIngredients
       };
     });
 
     console.log('Loaded recipes with images:', recipes.length);
 
-    // Collect all unique ingredients
+    // Collect all unique ingredients and clean them
     allIngredients = [
-      ...new Set(recipes.flatMap((r) => r.ingredients.map((i) => i.toLowerCase())))
-    ];
+      ...new Set(recipes.flatMap((r) => r.ingredients.map((i) => cleanIngredientName(i.toLowerCase()))))
+    ].filter(ingredient => ingredient.length > 0); // Remove empty ingredients
 
     console.log('Collected ingredients:', allIngredients.length);
+    
+    // Log some examples of cleaned ingredients for debugging
+    const sampleIngredients = allIngredients.slice(0, 10);
+    console.log('Sample cleaned ingredients:', sampleIngredients);
 
     // Show popular recipes on home page
     displayPopularRecipes();
