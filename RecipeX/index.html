@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Recipe Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Smart Recipe Generator</h1>
+      </header>
+
+      <!-- Home Section -->
+      <section id="homeSection" class="page-section active">
+        <div class="hero">
+          <h2>Welcome to Smart Recipe Generator!</h2>
+          <p>Discover amazing recipes based on your ingredients</p>
+          <div class="hero-features">
+            <div class="feature" id="searchFeature">
+              <span class="feature-icon">🔍</span>
+              <h3>Smart Search</h3>
+              <p>Type ingredients and find matching recipes</p>
+            </div>
+            <div class="feature" id="favoritesFeature">
+              <span class="feature-icon">❤️</span>
+              <h3>My Favorites</h3>
+              <p>View and manage your saved recipes</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="popular-recipes">
+          <h3>Popular Recipes</h3>
+          <div id="popularRecipesList" class="recipe-grid"></div>
+        </div>
+      </section>
+
+      <!-- Search Section -->
+      <section id="searchSection" class="page-section">
+        <div class="input-section">
+          <h2>Select Your Ingredients</h2>
+          <p>Add ingredients you have. Type to search or pick from the list.</p>
+
+          <!-- Ingredient input controls -->
+          <div class="ingredient-controls">
+            <input
+              type="text"
+              id="ingredientInput"
+              placeholder="Type an ingredient"
+              aria-label="Type an ingredient"
+            />
+            <button id="addIngredientBtn" class="secondary-btn">Add</button>
+          </div>
+
+          <!-- Selected ingredients display -->
+          <div
+            class="ingredient-list"
+            id="selectedIngredients"
+            aria-live="polite"
+          ></div>
+
+          <!-- All available ingredients -->
+          <div class="all-ingredients" id="allIngredients"></div>
+
+          <!-- Dietary preferences -->
+          <div class="preferences">
+            <h3>Dietary Preferences</h3>
+            <div class="pref-options">
+              <label
+                ><input type="checkbox" value="vegetarian" /> Vegetarian</label
+              >
+              <label><input type="checkbox" value="vegan" /> Vegan</label>
+              <label
+                ><input type="checkbox" value="gluten-free" />
+                Gluten-Free</label
+              >
+              <label
+                ><input type="checkbox" value="dairy-free" /> Dairy-Free</label
+              >
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <button id="generateBtn" class="primary-btn generate-btn">
+            Generate Recipes
+          </button>
+          <div id="loadingSpinner" class="loading hidden" aria-live="polite">
+            Generating recipes...
+          </div>
+
+          <!-- Back to home button -->
+          <button id="backHomeBtn" class="tertiary-btn">🏠 Back to Home</button>
+        </div>
+
+        <!-- Results filters -->
+        <div class="filters hidden" id="resultsFilters">
+          <h3>Filters</h3>
+          <div class="filter-group">
+            <label for="difficultyFilter">Difficulty:</label>
+            <select id="difficultyFilter">
+              <option value="">All</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="timeFilter">Max cooking time (minutes):</label>
+            <input
+              type="number"
+              id="timeFilter"
+              min="0"
+              step="5"
+              placeholder="e.g. 30"
+            />
+          </div>
+        </div>
+
+        <main>
+          <div id="recipeList" class="recipe-list"></div>
+          <div id="recipeDetails" class="recipe-details"></div>
+        </main>
+      </section>
+
+      <!-- Favorites Section -->
+      <section id="favoritesSection" class="page-section">
+        <div class="favorites-header">
+          <h2>❤️ Your Favorite Recipes</h2>
+          <p>Recipes you've saved for later</p>
+        </div>
+        <div id="favoritesList" class="recipe-list">
+          <div class="empty-favorites">
+            <span class="empty-icon">💔</span>
+            <h3>No favorites yet</h3>
+            <p>Start exploring recipes and add them to your favorites!</p>
+            <button id="browseFavoritesBtn" class="cta-button">
+              Browse Recipes
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>Made By Saksham Gupta</p>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
