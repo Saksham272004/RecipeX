@@ -1,7 +1,11 @@
+console.log('🚀 App.js is loading...');
+
 let recipes = [];
 let allIngredients = [];
 let selectedIngredients = [];
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+console.log('📊 Initial variables set');
 
 // Page sections
 let homeSection, searchSection, favoritesSection;
@@ -14,15 +18,15 @@ function cleanIngredientName(ingredient) {
   if (!ingredient || typeof ingredient !== 'string') {
     return '';
   }
-  
+
   let cleaned = ingredient.trim();
-  
+
   // Remove leading numbers, percentages, and symbols (like "2% low-fat milk" -> "low-fat milk")
   cleaned = cleaned.replace(/^[0-9]+[%]?\s*/, '');
-  
+
   // Remove other leading non-alphabetic characters (symbols, spaces)
   cleaned = cleaned.replace(/^[^a-zA-Z]+/, '').trim();
-  
+
   // Remove common measurement prefixes and numbers
   const measurementPrefixes = [
     'cup', 'cups', 'c', 'tbsp', 'tsp', 'tablespoon', 'tablespoons', 'teaspoon', 'teaspoons',
@@ -32,40 +36,40 @@ function cleanIngredientName(ingredient) {
     'pint', 'pints', 'pt', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal',
     'inch', 'inches', 'cm', 'centimeter', 'centimeters'
   ];
-  
+
   // Split by spaces and remove measurement words and numbers from the beginning
   let words = cleaned.split(/\s+/);
-  
+
   // Remove leading numbers and measurements
   while (words.length > 0) {
     const firstWord = words[0].toLowerCase();
-    
+
     // Remove if it's a number (including fractions like "1/2")
     if (/^[0-9]+([\/][0-9]+)?$/.test(firstWord)) {
       words.shift();
       continue;
     }
-    
+
     // Remove if it's a measurement unit
     if (measurementPrefixes.includes(firstWord)) {
       words.shift();
       continue;
     }
-    
+
     // Remove if it's a number followed by measurement (like "2cups")
     if (/^[0-9]+[a-zA-Z]+$/.test(firstWord) && measurementPrefixes.some(unit => firstWord.includes(unit))) {
       words.shift();
       continue;
     }
-    
+
     break; // Stop if current word is not a number or measurement
   }
-  
+
   cleaned = words.join(' ').trim();
-  
+
   // Remove any remaining leading non-alphabetic characters
   cleaned = cleaned.replace(/^[^a-zA-Z]+/, '').trim();
-  
+
   // Remove common descriptor words that aren't actual ingredients
   const descriptorWords = [
     'of', 'the', 'and', 'or', 'with', 'without', 'plus', 'extra',
@@ -75,27 +79,30 @@ function cleanIngredientName(ingredient) {
     'low-fat', 'non-fat', 'fat-free', 'sugar-free', 'salt-free',
     'organic', 'natural', 'pure', 'whole', 'reduced'
   ];
-  
+
   words = cleaned.split(/\s+/);
   while (words.length > 1 && descriptorWords.includes(words[0].toLowerCase())) {
     words.shift();
   }
-  
+
   cleaned = words.join(' ').trim();
-  
+
   // Final cleanup - ensure we have something meaningful
   if (cleaned.length < 2) {
     return ingredient.trim(); // Return original if cleaning resulted in too short string
   }
-  
+
   return cleaned;
 }
 
 // Load recipes and collect ingredients
 async function loadRecipes() {
+  console.log('🔄 loadRecipes function called');
   try {
-    console.log('Loading recipes from x_unique_nutrition.json...');
+    console.log('📂 Loading recipes from x_unique_nutrition.json...');
+    console.log('🌐 Fetching from URL:', "./x_unique_nutrition.json");
     const res = await fetch("./x_unique_nutrition.json");
+    console.log('📡 Fetch response:', res);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -116,13 +123,13 @@ async function loadRecipes() {
         const cleaned = cleanIngredientName(ingredient.toLowerCase());
         return cleaned || ingredient; // Keep original if cleaning results in empty string
       });
-      
+
       // Also clean recipe names that start with numbers
       let cleanedName = recipe.name;
       if (/^[0-9]/.test(cleanedName)) {
         cleanedName = cleanedName.replace(/^[0-9]+\s*/, '').trim();
       }
-      
+
       return {
         ...recipe,
         name: cleanedName,
@@ -139,7 +146,7 @@ async function loadRecipes() {
     ].filter(ingredient => ingredient.length > 0); // Remove empty ingredients
 
     console.log('Collected ingredients:', allIngredients.length);
-    
+
     // Log some examples of cleaned ingredients for debugging
     const sampleIngredients = allIngredients.slice(0, 10);
     console.log('Sample cleaned ingredients:', sampleIngredients);
@@ -720,16 +727,32 @@ function toggleFavorite(recipeId, button, event) {
 // Image recognition functionality - LogMeal API only
 async function analyzeImage(base64Image) {
   console.log('🔍 Starting image analysis...');
+  console.log('📸 Base64 image length:', base64Image ? base64Image.length : 'No image');
 
   let detections = [];
+
+  // Debug API configuration
+  console.log('🔧 API Config check:');
+  console.log('- window.API_CONFIG exists:', !!window.API_CONFIG);
+  console.log('- LOGMEAL config exists:', !!window.API_CONFIG?.LOGMEAL);
+  console.log('- API_KEY exists:', !!window.API_CONFIG?.LOGMEAL?.API_KEY);
+  console.log('- API_KEY value:', window.API_CONFIG?.LOGMEAL?.API_KEY);
+  console.log('- BASE_URL:', window.API_CONFIG?.LOGMEAL?.BASE_URL);
 
   // Check if LogMeal API is configured
   if (window.API_CONFIG?.LOGMEAL?.API_KEY && window.API_CONFIG.LOGMEAL.API_KEY !== 'YOUR_LOGMEAL_API_KEY_HERE') {
     console.log('🍕 Using LogMeal API for detection...');
-    detections = await detectWithLogMeal(base64Image);
+    try {
+      detections = await detectWithLogMeal(base64Image);
+    } catch (error) {
+      console.error('❌ Error in detectWithLogMeal:', error);
+      return [];
+    }
   } else {
-    console.log('⚠️ LogMeal API not configured, using demo mode');
-    detections = getDemoDetections();
+    console.log('⚠️ LogMeal API not configured');
+    console.log('⚠️ Reason: API key missing or is placeholder');
+    alert('❌ API Error: Please check console for details');
+    return [];
   }
 
   console.log('🎯 Final detections:', detections);
@@ -740,53 +763,136 @@ async function analyzeImage(base64Image) {
 async function detectWithLogMeal(base64Image) {
   try {
     console.log('🔄 Starting LogMeal API call...');
+    console.log('🔑 API Key:', window.API_CONFIG.LOGMEAL.API_KEY ? 'Present' : 'Missing');
+    console.log('🌐 API URL:', window.API_CONFIG.LOGMEAL.BASE_URL);
+
+    // LogMeal API expects FormData with image file
+    const formData = new FormData();
+    
+    // Convert base64 to blob
+    const byteCharacters = atob(base64Image);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/jpeg' });
+    
+    formData.append('image', blob, 'image.jpg');
+
+    console.log('📤 FormData prepared with image blob, size:', blob.size);
 
     const response = await fetch(window.API_CONFIG.LOGMEAL.BASE_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${window.API_CONFIG.LOGMEAL.API_KEY}`,
-        'Content-Type': 'application/json'
+        'Authorization': `Bearer ${window.API_CONFIG.LOGMEAL.API_KEY}`
+        // Don't set Content-Type for FormData - browser sets it automatically
       },
-      body: JSON.stringify({
-        image: base64Image
-      })
+      body: formData
     });
 
+    console.log('📡 Response status:', response.status);
+    console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
+
     if (!response.ok) {
-      throw new Error(`LogMeal API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('❌ LogMeal API error response:', errorText);
+      throw new Error(`LogMeal API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
     console.log('✅ LogMeal response received:', data);
+    console.log('🔍 Response structure check:');
+    console.log('- segmentation_results:', !!data.segmentation_results);
+    console.log('- recognition_results:', !!data.recognition_results);
+    console.log('- results:', !!data.results);
+    console.log('- Full response keys:', Object.keys(data));
+    
+    // Log first segmentation result for debugging
+    if (data.segmentation_results && data.segmentation_results[0]) {
+      console.log('🔍 First segmentation result:', data.segmentation_results[0]);
+      if (data.segmentation_results[0].recognition_results) {
+        console.log('🔍 First recognition results:', data.segmentation_results[0].recognition_results.slice(0, 3));
+      }
+    }
 
+    // Handle different response formats
+    let detections = [];
+
+    // Check for segmentation_results format (LogMeal's actual format)
     if (data.segmentation_results && data.segmentation_results.length > 0) {
-      const detections = [];
-
+      console.log('📊 Processing segmentation results...');
       data.segmentation_results.forEach(result => {
         if (result.recognition_results && result.recognition_results.length > 0) {
           result.recognition_results.forEach(recognition => {
-            if (recognition.name && recognition.prob > 0.3) {
-              const foodName = recognition.name.toLowerCase();
-              const mappedIngredient = mapFoodToIngredient(foodName);
-
-              if (mappedIngredient && allIngredients.includes(mappedIngredient)) {
-                detections.push({
-                  name: mappedIngredient,
-                  confidence: recognition.prob
-                });
-              }
+            if (recognition.name && recognition.prob > 0.15) { // Lower threshold for more results
+              const foodName = recognition.name;
+              const mappedIngredient = mapFoodToIngredient(foodName.toLowerCase());
+              
+              // Show detected food even if not in recipe database
+              const ingredientName = mappedIngredient || foodName;
+              console.log(`🍽️ Detected: ${foodName} -> ${ingredientName} (confidence: ${recognition.prob})`);
+              
+              detections.push({
+                name: ingredientName,
+                confidence: recognition.prob
+              });
             }
           });
         }
       });
-
-      return detections.length > 0 ? detections : getDemoDetections();
+    }
+    // Check for direct recognition results format
+    else if (data.recognition_results && data.recognition_results.length > 0) {
+      console.log('📊 Processing direct recognition results...');
+      data.recognition_results.forEach(recognition => {
+        if (recognition.name && recognition.prob > 0.3) {
+          const foodName = recognition.name.toLowerCase();
+          const mappedIngredient = mapFoodToIngredient(foodName);
+          
+          // Show detected food even if not in recipe database
+          const ingredientName = mappedIngredient || foodName;
+          console.log(`🍽️ Detected: ${foodName} -> ${ingredientName} (confidence: ${recognition.prob})`);
+          
+          detections.push({
+            name: ingredientName,
+            confidence: recognition.prob
+          });
+        }
+      });
+    }
+    // Check for other possible formats
+    else if (data.results && Array.isArray(data.results)) {
+      console.log('📊 Processing results array...');
+      data.results.forEach(result => {
+        if (result.name && result.confidence > 0.3) {
+          const foodName = result.name.toLowerCase();
+          const mappedIngredient = mapFoodToIngredient(foodName);
+          
+          // Show detected food even if not in recipe database
+          const ingredientName = mappedIngredient || foodName;
+          console.log(`🍽️ Detected: ${foodName} -> ${ingredientName} (confidence: ${result.confidence})`);
+          
+          detections.push({
+            name: ingredientName,
+            confidence: result.confidence
+          });
+        }
+      });
     }
 
-    return getDemoDetections();
+    console.log('🎯 Processed detections:', detections);
+    console.log('🎯 Detections count:', detections.length);
+    
+    if (detections.length === 0) {
+      console.log('⚠️ No ingredients detected in this image');
+    }
+
+    return detections;
   } catch (error) {
     console.error('❌ LogMeal API error:', error);
-    return getDemoDetections();
+    console.error('❌ Error details:', error.message);
+    return [];
   }
 }
 
@@ -840,29 +946,32 @@ function mapFoodToIngredient(foodName) {
   return foodMappings[foodName] || null;
 }
 
-// Demo detections for when API is not configured
-function getDemoDetections() {
-  const demoIngredients = ['tomato', 'onion', 'garlic', 'chicken', 'cheese'];
-  return demoIngredients
-    .filter(ing => allIngredients.includes(ing))
-    .slice(0, 3)
-    .map(ing => ({
-      name: ing,
-      confidence: 0.8 + Math.random() * 0.2
-    }));
-}
+
 
 // Handle detected ingredients display
 function displayDetectedIngredients(detections) {
+  console.log('🎨 displayDetectedIngredients called with:', detections);
+  
   const resultsContainer = document.getElementById('recognitionResults');
   const detectedContainer = document.getElementById('detectedIngredients');
 
-  if (!resultsContainer || !detectedContainer) return;
+  console.log('🎨 HTML elements found:', {
+    resultsContainer: !!resultsContainer,
+    detectedContainer: !!detectedContainer
+  });
+
+  if (!resultsContainer || !detectedContainer) {
+    console.error('❌ Missing HTML elements for displaying results');
+    return;
+  }
 
   if (detections.length === 0) {
+    console.log('🎨 No detections to display, hiding results');
     resultsContainer.classList.add('hidden');
     return;
   }
+
+  console.log('🎨 Displaying', detections.length, 'detections on page');
 
   detectedContainer.innerHTML = detections.map(detection => `
     <div class="detected-ingredient" data-ingredient="${detection.name}">
@@ -954,9 +1063,20 @@ function searchRecipes() {
   displayRecipes(matchingRecipes);
 }
 
+console.log('📝 Setting up event listeners...');
+
+// Fallback for window load event
+window.addEventListener('load', () => {
+  console.log('🌟 Window load event fired');
+});
+
+console.log('📝 Setting up DOMContentLoaded listener...');
+
 // Initialize the app
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('🚀 Initializing Smart Recipe Generator...');
+  console.log('🚀 DOM Content Loaded - Initializing Smart Recipe Generator...');
+  console.log('🌐 Current URL:', window.location.href);
+  console.log('📄 Document ready state:', document.readyState);
 
   // Get DOM elements
   recipeList = document.getElementById('recipeList');
