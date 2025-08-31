@@ -782,13 +782,10 @@ async function detectWithLogMeal(base64Image) {
 
     console.log('📤 FormData prepared with image blob, size:', blob.size);
 
-    const response = await fetch(window.API_CONFIG.LOGMEAL.BASE_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${window.API_CONFIG.LOGMEAL.API_KEY}`
-        // Don't set Content-Type for FormData - browser sets it automatically
-      },
-      body: formData
+    const response = await fetch("/.netlify/functions/logmeal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: base64Image })
     });
 
     console.log('📡 Response status:', response.status);
