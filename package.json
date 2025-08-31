@@ -1,0 +1,16 @@
+{
+  "name": "recipe-pro",
+  "version": "1.0.0",
+  "description": "A modern web application that combines AI-powered food recognition with intelligent recipe matching. Upload food images to automatically detect ingredients, or manually search for recipes based on what you have in your kitchen.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "form-data": "^4.0.4",
+    "node-fetch": "^2.7.0"
+  }
+}

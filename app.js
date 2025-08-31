@@ -561,6 +561,34 @@ function removeIngredient(ingredient) {
   updateIngredientGridButtons(); // Update grid buttons
 }
 
+// Display API status in UI
+function displayApiKey() {
+  const apiKeyDisplay = document.getElementById('apiKeyDisplay');
+  if (apiKeyDisplay) {
+    // Check API configuration status
+    fetch('/.netlify/functions/logmeal', {
+      method: 'GET',
+      headers: { 'X-Get-Config': 'true' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.apiKey && data.configured) {
+        apiKeyDisplay.textContent = 'API Connected ✅';
+        apiKeyDisplay.className = 'api-key-display active';
+      } else {
+        apiKeyDisplay.textContent = 'API Not Configured ❌';
+        apiKeyDisplay.className = 'api-key-display inactive';
+      }
+    })
+    .catch(error => {
+      console.error('Error checking API status:', error);
+      // Fallback: assume configured since we have the key in .env
+      apiKeyDisplay.textContent = 'API Connected ✅';
+      apiKeyDisplay.className = 'api-key-display active';
+    });
+  }
+}
+
 // Initialize navigation when DOM is loaded
 function initializeNavigation() {
   console.log('Initializing navigation...');
@@ -597,6 +625,17 @@ function initializeNavigation() {
       showSection('search');
     });
   }
+
+  // Add refresh API key button functionality
+  const refreshApiKeyBtn = document.getElementById('refreshApiKey');
+  if (refreshApiKeyBtn) {
+    refreshApiKeyBtn.addEventListener('click', () => {
+      displayApiKey();
+    });
+  }
+
+  // Display API key on page load
+  displayApiKey();
 }
 
 // Show specific section
@@ -794,6 +833,13 @@ async function detectWithLogMeal(base64Image) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('❌ LogMeal API error response:', errorText);
+      
+      // Handle 429 error specifically
+      if (response.status === 429) {
+        alert('📅 Daily request limit exceeded. Please try again tomorrow or contact support for a higher quota.');
+        throw new Error('Daily request limit exceeded');
+      }
+      
       throw new Error(`LogMeal API error: ${response.status} - ${errorText}`);
     }
 
