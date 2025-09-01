@@ -1,36 +1,6 @@
 const fetch = require("node-fetch");
 const FormData = require("form-data");
 
-// Helper: create new APIUser if none exists
-async function createUserToken(apiKey) {
-  console.log("🆕 Creating new APIUser...");
-  const response = await fetch("https://api.logmeal.es/v2/user/", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      age: 25,
-      weight: 70,
-      height: 170,
-      sex: "male",
-      activity: "sedentary",
-      objective: "maintain",
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("❌ Failed to create APIUser:", errorText);
-    throw new Error(`User creation failed: ${response.status} - ${errorText}`);
-  }
-
-  const data = await response.json();
-  console.log("✅ APIUser created:", data.user_token);
-  return data.user_token;
-}
-
 exports.handler = async (event) => {
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -39,37 +9,39 @@ exports.handler = async (event) => {
     "Content-Type": "application/json",
   };
 
+  // Preflight
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers, body: "" };
   }
 
+  // For API status check
   if (event.httpMethod === "GET" && event.headers["x-get-config"]) {
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        apiKey: process.env.LOGMEAL_API_KEY || null,
-        userToken: process.env.LOGMEAL_USER_TOKEN || null,
-        configured: !!process.env.LOGMEAL_API_KEY,
+        apiKey: !!process.env.LOGMEAL_API_KEY,
+        userToken: !!process.env.LOGMEAL_USER_TOKEN,
+        configured: !!(process.env.LOGMEAL_API_KEY && process.env.LOGMEAL_USER_TOKEN),
       }),
     };
   }
 
   try {
     console.log("🔑 API Key present:", !!process.env.LOGMEAL_API_KEY);
+    console.log("🎫 User Token present:", !!process.env.LOGMEAL_USER_TOKEN);
+
+    if (!process.env.LOGMEAL_API_KEY || !process.env.LOGMEAL_USER_TOKEN) {
+      throw new Error("Missing API key or user token in environment variables");
+    }
 
     const body = JSON.parse(event.body);
     let imageData = body.image || "";
+
+    // Remove data URL prefix if present
     imageData = imageData.replace(/^data:image\/\w+;base64,/, "");
 
     console.log("➡️ Final image length:", imageData.length);
-
-    // Make sure we have an APIUser token
-    let userToken = process.env.LOGMEAL_USER_TOKEN;
-    if (!userToken) {
-      console.log("⚠️ No LOGMEAL_USER_TOKEN set, creating one...");
-      userToken = await createUserToken(process.env.LOGMEAL_API_KEY);
-    }
 
     // Prepare form data
     const imageBuffer = Buffer.from(imageData, "base64");
@@ -79,12 +51,13 @@ exports.handler = async (event) => {
       contentType: "image/jpeg",
     });
 
-    // Call LogMeal segmentation
+    console.log("📤 Sending to LogMeal API...");
+
     const response = await fetch("https://api.logmeal.es/v2/image/segmentation/complete", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.LOGMEAL_API_KEY}`,
-        "user_token": userToken,
+        "user_token": process.env.LOGMEAL_USER_TOKEN,
         ...formData.getHeaders(),
       },
       body: formData,
@@ -92,9 +65,9 @@ exports.handler = async (event) => {
 
     console.log("📡 API Response status:", response.status);
     const data = await response.json();
-    console.log("📦 API Response:", JSON.stringify(data, null, 2));
 
     if (!response.ok) {
+      console.error("❌ LogMeal API Error:", data);
       return {
         statusCode: response.status,
         headers,
