@@ -764,62 +764,26 @@ function toggleFavorite(recipeId, button, event) {
 }
 
 // Image recognition functionality - LogMeal API only
+// Analyze image (frontend should only call backend function)
 async function analyzeImage(base64Image) {
   console.log('🔍 Starting image analysis...');
   console.log('📸 Base64 image length:', base64Image ? base64Image.length : 'No image');
 
-  let detections = [];
-
-  // Debug API configuration
-  console.log('🔧 API Config check:');
-  console.log('- window.API_CONFIG exists:', !!window.API_CONFIG);
-  console.log('- LOGMEAL config exists:', !!window.API_CONFIG?.LOGMEAL);
-  console.log('- API_KEY exists:', !!window.API_CONFIG?.LOGMEAL?.API_KEY);
-  console.log('- API_KEY value:', window.API_CONFIG?.LOGMEAL?.API_KEY);
-  console.log('- BASE_URL:', window.API_CONFIG?.LOGMEAL?.BASE_URL);
-
-  // Check if LogMeal API is configured
-  if (window.API_CONFIG?.LOGMEAL?.API_KEY && window.API_CONFIG.LOGMEAL.API_KEY !== 'YOUR_LOGMEAL_API_KEY_HERE') {
-    console.log('🍕 Using LogMeal API for detection...');
-    try {
-      detections = await detectWithLogMeal(base64Image);
-    } catch (error) {
-      console.error('❌ Error in detectWithLogMeal:', error);
-      return [];
-    }
-  } else {
-    console.log('⚠️ LogMeal API not configured');
-    console.log('⚠️ Reason: API key missing or is placeholder');
+  try {
+    const detections = await detectWithLogMeal(base64Image);
+    console.log('🎯 Final detections:', detections);
+    return detections;
+  } catch (error) {
+    console.error('❌ Error during image analysis:', error);
     alert('❌ API Error: Please check console for details');
     return [];
   }
-
-  console.log('🎯 Final detections:', detections);
-  return detections;
 }
 
-// LogMeal Food AI API
+// Netlify Function call
 async function detectWithLogMeal(base64Image) {
   try {
-    console.log('🔄 Starting LogMeal API call...');
-    console.log('🔑 API Key:', window.API_CONFIG.LOGMEAL.API_KEY ? 'Present' : 'Missing');
-    console.log('🌐 API URL:', window.API_CONFIG.LOGMEAL.BASE_URL);
-
-    // LogMeal API expects FormData with image file
-    const formData = new FormData();
-    
-    // Convert base64 to blob
-    const byteCharacters = atob(base64Image);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/jpeg' });
-    
-    formData.append('image', blob, 'image.jpg');
-
-    console.log('📤 FormData prepared with image blob, size:', blob.size);
+    console.log('🔄 Sending image to Netlify function...');
 
     const response = await fetch("/.netlify/functions/logmeal", {
       method: "POST",
@@ -828,118 +792,48 @@ async function detectWithLogMeal(base64Image) {
     });
 
     console.log('📡 Response status:', response.status);
-    console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ LogMeal API error response:', errorText);
-      
-      // Handle 429 error specifically
+      console.error('❌ Netlify function error response:', errorText);
+
       if (response.status === 429) {
-        alert('📅 Daily request limit exceeded. Please try again tomorrow or contact support for a higher quota.');
+        alert('📅 Daily request limit exceeded. Please try again tomorrow.');
         throw new Error('Daily request limit exceeded');
       }
-      
-      throw new Error(`LogMeal API error: ${response.status} - ${errorText}`);
+
+      throw new Error(`Function error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('✅ LogMeal response received:', data);
-    console.log('🔍 Response structure check:');
-    console.log('- segmentation_results:', !!data.segmentation_results);
-    console.log('- recognition_results:', !!data.recognition_results);
-    console.log('- results:', !!data.results);
-    console.log('- Full response keys:', Object.keys(data));
-    
-    // Log first segmentation result for debugging
-    if (data.segmentation_results && data.segmentation_results[0]) {
-      console.log('🔍 First segmentation result:', data.segmentation_results[0]);
-      if (data.segmentation_results[0].recognition_results) {
-        console.log('🔍 First recognition results:', data.segmentation_results[0].recognition_results.slice(0, 3));
-      }
-    }
+    console.log('✅ Response from function:', data);
 
-    // Handle different response formats
+    // Parse into detections
     let detections = [];
-
-    // Check for segmentation_results format (LogMeal's actual format)
-    if (data.segmentation_results && data.segmentation_results.length > 0) {
-      console.log('📊 Processing segmentation results...');
-      data.segmentation_results.forEach(result => {
-        if (result.recognition_results && result.recognition_results.length > 0) {
-          result.recognition_results.forEach(recognition => {
-            if (recognition.name && recognition.prob > 0.15) { // Lower threshold for more results
-              const foodName = recognition.name;
-              const mappedIngredient = mapFoodToIngredient(foodName.toLowerCase());
-              
-              // Show detected food even if not in recipe database
-              const ingredientName = mappedIngredient || foodName;
-              console.log(`🍽️ Detected: ${foodName} -> ${ingredientName} (confidence: ${recognition.prob})`);
-              
-              detections.push({
-                name: ingredientName,
-                confidence: recognition.prob
-              });
-            }
-          });
-        }
-      });
-    }
-    // Check for direct recognition results format
-    else if (data.recognition_results && data.recognition_results.length > 0) {
-      console.log('📊 Processing direct recognition results...');
-      data.recognition_results.forEach(recognition => {
-        if (recognition.name && recognition.prob > 0.3) {
-          const foodName = recognition.name.toLowerCase();
-          const mappedIngredient = mapFoodToIngredient(foodName);
-          
-          // Show detected food even if not in recipe database
-          const ingredientName = mappedIngredient || foodName;
-          console.log(`🍽️ Detected: ${foodName} -> ${ingredientName} (confidence: ${recognition.prob})`);
-          
-          detections.push({
-            name: ingredientName,
-            confidence: recognition.prob
-          });
-        }
-      });
-    }
-    // Check for other possible formats
-    else if (data.results && Array.isArray(data.results)) {
-      console.log('📊 Processing results array...');
-      data.results.forEach(result => {
-        if (result.name && result.confidence > 0.3) {
-          const foodName = result.name.toLowerCase();
-          const mappedIngredient = mapFoodToIngredient(foodName);
-          
-          // Show detected food even if not in recipe database
-          const ingredientName = mappedIngredient || foodName;
-          console.log(`🍽️ Detected: ${foodName} -> ${ingredientName} (confidence: ${result.confidence})`);
-          
-          detections.push({
-            name: ingredientName,
-            confidence: result.confidence
-          });
-        }
-      });
-    }
-
-    console.log('🎯 Processed detections:', detections);
-    console.log('🎯 Detections count:', detections.length);
-    
-    if (detections.length === 0) {
-      console.log('⚠️ No ingredients detected in this image');
+    if (data.segmentation_results && data.segmentation_results[0]) {
+      detections = data.segmentation_results[0].recognition_results.map(r => ({
+        name: r.name,
+        confidence: r.prob
+      }));
+    } else if (data.recognition_results) {
+      detections = data.recognition_results.map(r => ({
+        name: r.name,
+        confidence: r.prob
+      }));
+    } else if (data.results) {
+      detections = data.results.map(r => ({
+        name: r.name,
+        confidence: r.confidence
+      }));
     }
 
     return detections;
   } catch (error) {
-    console.error('❌ LogMeal API error:', error);
-    console.error('❌ Error details:', error.message);
+    console.error('❌ detectWithLogMeal error:', error);
     return [];
   }
 }
 
-// Map food items to recipe ingredients
 function mapFoodToIngredient(foodName) {
   const foodMappings = {
     'tomato': 'tomato',
